@@ -23,7 +23,7 @@ func walk(v interface{}, total *float64) {
 }
 
 func main() {
-	input := utils.ReadFileToString("input2.txt")
+	input := utils.ReadFileToString("input.txt")
 	var result map[string]interface{}
 	json.Unmarshal([]byte(input), &result)
 	total := 0.0
