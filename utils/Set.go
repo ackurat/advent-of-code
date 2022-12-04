@@ -6,6 +6,12 @@ func (s Set[T]) Add(i T) {
 	s[i] = true
 }
 
+func (s Set[T]) AddListOfItems(i []T) {
+	for _, k := range i {
+		s.Add(k)
+	}
+}
+
 func (s Set[T]) Contains(i T) bool {
 	return s[i]
 }
