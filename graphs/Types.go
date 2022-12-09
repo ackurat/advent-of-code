@@ -9,3 +9,9 @@ type Edge struct {
 type Node struct {
 	Name string
 }
+
+type WeightedNode struct {
+	Parent   *WeightedNode
+	Children []*WeightedNode
+	Weight   int
+}
