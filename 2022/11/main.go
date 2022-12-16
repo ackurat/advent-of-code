@@ -131,7 +131,7 @@ func part2(monkeys []*monkey, rounds int) int {
 }
 
 func main() {
-	input := utils.ReadFileToString("input.txt")
+	input := utils.ReadFileToString("monkeys.txt")
 
 	var monkeys []*monkey
 

@@ -15,3 +15,7 @@ type WeightedNode struct {
 	Children []*WeightedNode
 	Weight   int
 }
+
+type Point struct {
+	X, Y int
+}

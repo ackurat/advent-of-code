@@ -28,6 +28,11 @@ func BiggestValue(numbers []int) int {
 	return biggest
 }
 
+// Determines if number is in supplied range (inclusive)
+func NumberInRange(lower, upper, number int) bool {
+	return number >= lower && number <= upper
+}
+
 type Pair struct {
 	Key   *interface{}
 	Value int

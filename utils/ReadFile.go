@@ -15,7 +15,6 @@ func ReadFileToString(path string) string {
 }
 
 func ReadFileLineByLine(path string) []string {
-
 	file, err := os.Open(path)
 	if err != nil {
 		fmt.Println(err)
@@ -33,5 +32,4 @@ func ReadFileLineByLine(path string) []string {
 	}
 
 	return strings
-
 }
