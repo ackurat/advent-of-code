@@ -11,3 +11,10 @@ func SplitToChunks[T comparable](arr []T, chunkSize int) [][]T {
 	}
 	return chunks
 }
+
+func SumOfArray(arr []int) (sum int) {
+	for _, number := range arr {
+		sum += number
+	}
+	return sum
+}

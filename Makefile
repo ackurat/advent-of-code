@@ -5,11 +5,11 @@ new:
 	@echo "Creating new file structure for day" $(day)"..."
 
 	@if [ $(day) -lt 10 ] ; then \
-  		mkdir -p $(year)/day-0$(day); \
-  		cp template $(year)/day-0$(day)/day0$(day).go; \
+  		mkdir -p $(year)/day0$(day); \
+  		cp template $(year)/day0$(day)/main.go; \
   	else \
-  		mkdir -p $(year)/day-$(day); \
-		cp template $(year)/day-$(day)/day$(day).go; \
+  		mkdir -p $(year)/day$(day); \
+		cp template $(year)/day$(day)/main.go; \
     fi
 	$(shell go run input/main.go)
 	@echo "Files successfully created.. happy hacking :)"

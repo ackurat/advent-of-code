@@ -15,7 +15,7 @@ import (
 )
 
 func fetchInput(year, day int) []byte {
-	sessionString := utils.ReadFileToString("session")
+	sessionString := utils.ReadFileToString("./input/session")
 	url := fmt.Sprintf("https://adventofcode.com/%v/day/%v/input", year, day)
 	req, err := http.NewRequest("GET", url, nil)
 
