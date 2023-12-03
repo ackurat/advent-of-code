@@ -65,12 +65,8 @@ func parse(input []string) map[string][]Round {
 	return gameList
 }
 
-func part2(input []string) int {
-	return 0
-}
-
 func checkOneRound(round Round) bool {
-	return round.Blue < MAX_BLUE && round.Red < MAX_RED && round.Green < MAX_GREEN
+	return round.Blue <= MAX_BLUE && round.Red <= MAX_RED && round.Green <= MAX_GREEN
 }
 
 func checkOneGame(rounds []Round) bool {
@@ -82,18 +78,36 @@ func checkOneGame(rounds []Round) bool {
 	return true
 }
 
-func part1(input []string) int {
-	allGames := parse(input)
-	total := 0
-	for id, game := range allGames {
+func part1(games map[string][]Round) (total int) {
+	for id, game := range games {
 		if checkOneGame(game) {
 			toAdd, _ := strconv.Atoi(id)
 			total += toAdd
 		}
 	}
+	return
+}
 
-	prettyPrint(allGames)
-	return total
+func part2(games map[string][]Round) (total int) {
+
+	for _, game := range games {
+		var maxRed, maxBlue, maxGreen int
+		for _, round := range game {
+			if round.Red > maxRed {
+				maxRed = round.Red
+			}
+			if round.Green > maxGreen {
+				maxGreen = round.Green
+			}
+			if round.Blue > maxBlue {
+				maxBlue = round.Blue
+			}
+		}
+		cube := maxBlue * maxRed * maxGreen
+		total += cube
+	}
+
+	return
 }
 
 func prettyPrint(games map[string][]Round) {
@@ -102,13 +116,13 @@ func prettyPrint(games map[string][]Round) {
 		fmt.Println("Error:", err)
 		return
 	}
-
 	fmt.Println(string(jsonData))
 }
 
 func main() {
-	input := utils.ReadFileLineByLine("example.txt")
+	input := utils.ReadFileLineByLine("input.txt")
+	games := parse(input)
 
-	fmt.Println(part1(input))
-	fmt.Println(part2(input))
+	fmt.Println(part1(games))
+	fmt.Println(part2(games))
 }
