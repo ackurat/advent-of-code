@@ -6,10 +6,12 @@ import (
 	"github.com/adamliliemark/advent-of-code/utils"
 )
 
-func part2(input []string) int {
+func part2(input []string) (total int) {
+	return
 }
 
-func part1(input []string) int {
+func part1(input []string) (total int) {
+	return
 }
 
 func main() {

@@ -44,9 +44,7 @@ func part1(input []string) int {
 			digit, _ := strconv.Atoi(combined)
 			digits = append(digits, digit)
 		}
-
 	}
-
 	return utils.SumOfArray(digits)
 }
 

@@ -15,29 +15,33 @@ type Part struct {
 }
 
 type Symbol struct {
-	row, col int
-}
-
-func part2(input []string) (total int) {
-	return
+	row, col  int
+	sym       byte
+	adjacents *[]Part
 }
 
 func isSymbol(b byte) bool {
 	return b != 46 && (b < 48 || b > 57)
 }
 
+func isStar(b byte) bool {
+	return b == 42
+}
+
 func checkAdjacent(part Part, symbols []Symbol) bool {
 	for _, symbol := range symbols {
 		if (symbol.row == part.row || symbol.row+1 == part.row || symbol.row-1 == part.row) && (symbol.col+1 >= part.start && symbol.col-1 <= part.end) {
+			if isStar(symbol.sym) {
+
+				*symbol.adjacents = append(*symbol.adjacents, part)
+			}
 			return true
 		}
 	}
 	return false
 }
 
-func part1(input []string) (total int) {
-	symbols := []Symbol{}
-	parts := []Part{}
+func prepare(input []string, symbols *[]Symbol, parts *[]Part) {
 	for i := 0; i < len(input); i++ {
 		for j := 0; j < len(input[i]); j++ {
 			if unicode.IsDigit(rune(input[i][j])) {
@@ -59,25 +63,37 @@ func part1(input []string) (total int) {
 						break
 					}
 				}
-				parts = append(parts, currentPart)
+				*parts = append(*parts, currentPart)
 			} else if isSymbol(input[i][j]) {
-				symbols = append(symbols, Symbol{row: i, col: j})
+				*symbols = append(*symbols, Symbol{row: i, col: j, sym: input[i][j], adjacents: &[]Part{}})
 			}
 		}
 	}
+}
 
-	for _, part := range parts {
-		if checkAdjacent(part, symbols) {
+func part1(symbols *[]Symbol, parts *[]Part) (total int) {
+	for _, part := range *parts {
+		if checkAdjacent(part, *symbols) {
 			total += part.number
 		}
 	}
+	return
+}
 
+func part2(symbols *[]Symbol) (total int) {
+	for _, symbol := range *symbols {
+		if len(*symbol.adjacents) == 2 {
+			total += (*symbol.adjacents)[0].number * (*symbol.adjacents)[1].number
+		}
+	}
 	return
 }
 
 func main() {
 	input := utils.ReadFileLineByLine("input.txt")
-
-	fmt.Println(part1(input))
-	fmt.Println(part2(input))
+	symbols := []Symbol{}
+	parts := []Part{}
+	prepare(input, &symbols, &parts)
+	fmt.Println(part1(&symbols, &parts))
+	fmt.Println(part2(&symbols))
 }
