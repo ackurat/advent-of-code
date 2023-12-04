@@ -1,0 +1,83 @@
+package main
+
+import (
+	"fmt"
+	"strconv"
+	"unicode"
+
+	"github.com/adamliliemark/advent-of-code/utils"
+)
+
+type Part struct {
+	row        int
+	start, end int
+	number     int
+}
+
+type Symbol struct {
+	row, col int
+}
+
+func part2(input []string) (total int) {
+	return
+}
+
+func isSymbol(b byte) bool {
+	return b != 46 && (b < 48 || b > 57)
+}
+
+func checkAdjacent(part Part, symbols []Symbol) bool {
+	for _, symbol := range symbols {
+		if (symbol.row == part.row || symbol.row+1 == part.row || symbol.row-1 == part.row) && (symbol.col+1 >= part.start && symbol.col-1 <= part.end) {
+			return true
+		}
+	}
+	return false
+}
+
+func part1(input []string) (total int) {
+	symbols := []Symbol{}
+	parts := []Part{}
+	for i := 0; i < len(input); i++ {
+		for j := 0; j < len(input[i]); j++ {
+			if unicode.IsDigit(rune(input[i][j])) {
+				var partsNumber []rune
+				currentPart := Part{row: i, start: j}
+				for {
+					if !unicode.IsDigit(rune(input[i][j])) {
+						num, _ := strconv.Atoi(string(partsNumber))
+						currentPart.number = num
+						j--
+						break
+					}
+					currentPart.end = j
+					partsNumber = append(partsNumber, rune(input[i][j]))
+					j++
+					if j == len(input) {
+						num, _ := strconv.Atoi(string(partsNumber))
+						currentPart.number = num
+						break
+					}
+				}
+				parts = append(parts, currentPart)
+			} else if isSymbol(input[i][j]) {
+				symbols = append(symbols, Symbol{row: i, col: j})
+			}
+		}
+	}
+
+	for _, part := range parts {
+		if checkAdjacent(part, symbols) {
+			total += part.number
+		}
+	}
+
+	return
+}
+
+func main() {
+	input := utils.ReadFileLineByLine("input.txt")
+
+	fmt.Println(part1(input))
+	fmt.Println(part2(input))
+}
