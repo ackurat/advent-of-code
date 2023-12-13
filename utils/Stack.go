@@ -31,3 +31,11 @@ func (s *Stack[T]) Peek() (item T) {
 	item = (*s).stack[len((*s).stack)-1]
 	return
 }
+
+func (s *Stack[T]) IsEmpty() bool {
+	return len((*s).stack) == 0
+}
+
+func (s *Stack[T]) Length() int {
+	return len((*s).stack)
+}

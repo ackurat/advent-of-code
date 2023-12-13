@@ -18,3 +18,11 @@ func SumOfArray(arr []int) (sum int) {
 	}
 	return sum
 }
+
+func DefaultValuedSlice[T comparable](size int, val T) []T {
+	retArr := make([]T, size)
+	for i := 0; i < size; i++ {
+		retArr[i] = val
+	}
+	return retArr
+}
