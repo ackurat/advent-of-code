@@ -1,46 +1,29 @@
 import gleam/int
 import gleam/io
-import gleam/list
 import gleam/string
-import simplifile
+import input
 
 pub fn main() {
-  let assert Ok(input) = simplifile.read("src/day1.txt")
-  let _ = io.debug(part_1(input))
-  let _ = io.debug(part_2(input))
+  input.split_by_comma("src/day1.txt")
+  |> follow_instructions(#(#(0, 0), "N"))
+  |> manhattan_distance
+  |> io.debug
 }
 
-fn part_1(input) {
-  let instructions = parse_instructions(input)
-  let final_position = follow_instructions(instructions)
-  manhattan_distance(final_position)
-}
-
-fn part_2(input) {
-  let instructions = parse_instructions(input)
-  let final_position = follow_instructions(instructions)
-  manhattan_distance(final_position)
-}
-
-fn parse_instructions(input) -> List(String) {
-  input
-  |> string.trim
-  |> string.split(", ")
-}
-
-fn follow_instructions(instructions) -> #(Int, Int) {
-  let start_position = #(0, 0)
-  let start_direction = "N"
-  list.fold(instructions, #(start_position, start_direction), move)
-  |> fn(tup) { tup.0 }
-}
-
-fn move(acc, instruction) -> #(#(Int, Int), String) {
-  let #(position, direction) = acc
-  let #(turn, steps) = parse_instruction(instruction)
-  let new_direction = update_direction(direction, turn)
-  let new_position = update_position(position, new_direction, steps)
-  #(new_position, new_direction)
+fn follow_instructions(
+  instructions: List(String),
+  current: #(#(Int, Int), String),
+) {
+  case instructions {
+    [] -> current.0
+    [instruction, ..rest] -> {
+      let #(current_position, current_heading) = current
+      let #(turn, steps) = parse_instruction(instruction)
+      let new_heading = update_direction(current_heading, turn)
+      let new_position = update_position(current_position, new_heading, steps)
+      follow_instructions(rest, #(new_position, new_heading))
+    }
+  }
 }
 
 fn parse_instruction(instruction) -> #(String, Int) {
