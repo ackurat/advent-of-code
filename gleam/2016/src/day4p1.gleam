@@ -8,19 +8,19 @@ import gleam/string
 import input
 
 pub fn main() {
-  input.line_by_line("src/d4short.txt")
+  input.line_by_line("src/d4.txt")
   |> list.map(parse_input)
-  |> io.debug
   |> list.filter(check_room)
   |> list.map(fn(room) { room |> list.take(1) })
   |> list.flatten
-  |> list.map(fn(room) {
-    room
-    |> case string.slice(-3, 3) |> int.parse {
-      Ok(parsed_id) -> parsed_id
-      Error(_) -> 0
+  |> list.fold([], fn(acc, room) {
+    let id = string.slice(room, -3, 3)
+    case int.parse(id) {
+      Ok(parsed_id) -> list.append(acc, [parsed_id])
+      Error(_) -> list.append(acc, [0])
     }
   })
+  |> list.fold(0, fn(acc, id) { acc + id })
   |> io.debug
 }
 

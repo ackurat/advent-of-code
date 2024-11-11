@@ -1,5 +1,5 @@
-import day4p1
+import day4p2
 
 pub fn main() {
-  day4p1.main()
+  day4p2.main()
 }
