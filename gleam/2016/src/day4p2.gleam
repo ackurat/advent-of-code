@@ -7,9 +7,11 @@ import gleam/string
 import input
 
 pub fn main() {
-  input.line_by_line("src/d4short.txt")
+  input.line_by_line("src/d4.txt")
   |> list.map(parse_input)
-  |> list.filter(find_north_pole)
+  |> list.map(find_north_pole)
+  |> list.filter(fn(str) { string.contains(str, "north") })
+  |> io.debug
 }
 
 fn parse_input(line) {
@@ -20,30 +22,34 @@ fn parse_input(line) {
 }
 
 fn find_north_pole(room: List(String)) {
-  let _id = result.try(list.last(room), int.parse) |> result.unwrap(0)
+  let id = result.try(list.last(room), int.parse) |> result.unwrap(0)
 
-  let _words = list.reverse(room) |> list.drop(1) |> list.reverse
+  let words = list.reverse(room) |> list.drop(1) |> list.reverse
 
-  shift_letters_in_word("abc", 2)
-  True
+  words
+  |> list.map(fn(word) {
+    word
+    |> shift_letters_in_word(id)
+  })
+  |> string.join(" ")
+  |> string.append(" - " <> int.to_string(id))
 }
 
 fn shift_letters_in_word(word: String, offset: Int) -> String {
-  let shifted_word =
-    word
-    |> string.to_utf_codepoints
-    |> io.debug
-    |> list.fold([], fn(acc, a) {
-      list.append(acc, [string.utf_codepoint_to_int(a) + { offset % 24 }])
-    })
-    |> io.debug
+  word
+  |> string.to_utf_codepoints
+  |> list.fold([], fn(acc, a) {
+    let assert Ok(b) =
+      a
+      |> string.utf_codepoint_to_int
+      |> fn(a) {
+        let normalized = a - 97
+        let shifted = { normalized + offset } % 26
+        shifted + 97
+      }
+      |> string.utf_codepoint
 
-  ""
-  // |> string.utf_codepoint
-
-  // case shifted_word {
-  //   Ok(char) -> [char] |> string.from_utf_codepoints
-  //   Error(_) -> "error"
-  // }
-  // |> io.debug
+    list.append(acc, [b])
+  })
+  |> string.from_utf_codepoints
 }
