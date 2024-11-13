@@ -32,18 +32,18 @@ fn iter(idx, collected, door_id) {
           let pos = string.slice(hash, 5, 1) |> int.parse
           let assert Ok(poss) = pos
           let max = list.length(collected)
-          list.index_map(collected, fn(x, i) {
-            case i {
-              _j if poss == i && poss < max -> Some(string.slice(hash, 7, 1))
-              _ -> x
-            }
-          })
-          |> io.debug
+          let new_collect =
+            list.index_map(collected, fn(x, i) {
+              case i {
+                _j if poss == i && poss < max -> Some(string.slice(hash, 7, 1))
+                _ -> x
+              }
+            })
+            |> io.debug
+          iter(idx + 1, new_collect, door_id)
         }
-        False -> collected
+        False -> iter(idx + 1, collected, door_id)
       }
-
-      iter(idx + 1, collected, door_id)
     }
     _ -> collected
   }
