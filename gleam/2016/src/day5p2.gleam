@@ -9,9 +9,12 @@ import gleam/string
 import input
 
 pub fn main() {
-  let door_id = input.line("src/d5short.txt")
+  let door_id = input.line("src/d5.txt")
 
   iter(0, [None, None, None, None, None, None, None, None], door_id)
+  |> option.values
+  |> string.join("")
+  |> string.lowercase
   |> io.debug
 }
 
@@ -29,13 +32,18 @@ fn iter(idx, collected, door_id) {
 
       case res {
         True -> {
-          let pos = string.slice(hash, 5, 1) |> int.parse
-          let assert Ok(poss) = pos
+          let pos = string.slice(hash, 5, 1) |> int.base_parse(16)
+          let assert Ok(pos_int) = pos
+
           let max = list.length(collected)
           let new_collect =
             list.index_map(collected, fn(x, i) {
               case i {
-                _j if poss == i && poss < max -> Some(string.slice(hash, 7, 1))
+                _j if pos_int == i && pos_int < max ->
+                  case x {
+                    None -> Some(string.slice(hash, 6, 1))
+                    some -> some
+                  }
                 _ -> x
               }
             })
