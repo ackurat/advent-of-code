@@ -3,6 +3,7 @@ import gleam/io
 import gleam/list
 import gleam/string
 import input
+import matrix
 
 type Instruction {
   Rect(width: Int, height: Int)
@@ -10,50 +11,17 @@ type Instruction {
   RotateRow(y: Int, by: Int)
 }
 
-type Matrix {
-  Matrix(cells: List(List(String)))
-}
+const height = 1
 
-const height = 6
-
-const width = 50
-
-fn new_matrix(w, h) -> Matrix {
-  Matrix(cells: list.repeat(list.repeat(".", w), h))
-}
-
-fn to_string(matrix: Matrix) -> String {
-  matrix.cells
-  |> list.map(fn(row) { string.join(row, "") })
-  |> string.join("\n")
-}
+const width = 7
 
 pub fn main() {
-  let matrix = new_matrix(width, height)
-
-  to_string(matrix)
-  |> io.println
+  let matrix = matrix.new_matrix(width, height, False)
 
   input.line_by_line("src/d8short.txt")
   |> list.filter_map(parse_line)
-  |> list.map(fn(instruction) {
-    case instruction {
-      Rect(w, h) -> {
-        io.println(
-          "Create rectangle " <> int.to_string(w) <> "x" <> int.to_string(h),
-        )
-      }
-
-      RotateColumn(x, by) ->
-        io.println(
-          "Rotate column " <> int.to_string(x) <> " by " <> int.to_string(by),
-        )
-      RotateRow(y, by) ->
-        io.println(
-          "Rotate row " <> int.to_string(y) <> " by " <> int.to_string(by),
-        )
-    }
-  })
+  |> list.fold(matrix, handle_instruction)
+  |> io.debug
 }
 
 fn parse_line(line: String) -> Result(Instruction, String) {
@@ -94,6 +62,26 @@ fn parse_line(line: String) -> Result(Instruction, String) {
     _ -> Error("Unknown instruction")
   }
 }
-// fn handle_instruction(instruction: Instruction) {
-//   todo
-// }
+
+fn handle_instruction(
+  matrix: matrix.Matrix(Bool),
+  instruction: Instruction,
+) -> matrix.Matrix(Bool) {
+  case instruction {
+    Rect(w, h) -> {
+      list.range(0, w - 1)
+      |> list.fold(matrix, fn(matrix, x) {
+        list.range(0, h - 1)
+        |> list.fold(matrix, fn(matrix, y) { matrix.set(matrix, x, y, True) })
+      })
+    }
+
+    RotateColumn(_x, _by) -> {
+      matrix
+    }
+
+    RotateRow(y, by) -> {
+      matrix.shift_row_right(matrix, y, by)
+    }
+  }
+}
