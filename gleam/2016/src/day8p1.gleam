@@ -11,7 +11,7 @@ type Instruction {
   RotateRow(y: Int, by: Int)
 }
 
-const height = 1
+const height = 3
 
 const width = 7
 
@@ -76,8 +76,8 @@ fn handle_instruction(
       })
     }
 
-    RotateColumn(_x, _by) -> {
-      matrix
+    RotateColumn(x, by) -> {
+      matrix.shift_column_down(matrix, x, by)
     }
 
     RotateRow(y, by) -> {
