@@ -11,17 +11,36 @@ type Instruction {
   RotateRow(y: Int, by: Int)
 }
 
-const height = 3
+const height = 6
 
-const width = 7
+const width = 50
 
 pub fn main() {
   let matrix = matrix.new_matrix(width, height, False)
 
-  input.line_by_line("src/d8short.txt")
-  |> list.filter_map(parse_line)
-  |> list.fold(matrix, handle_instruction)
+  let result =
+    input.line_by_line("src/d8.txt")
+    |> list.filter_map(parse_line)
+    |> list.fold(matrix, handle_instruction)
+    |> print_matrix
+
+  result.cells
+  |> list.fold(0, fn(acc, row) {
+    acc + { list.filter(row, fn(val) { val != False }) |> list.length }
+  })
   |> io.debug
+}
+
+fn print_matrix(matrix: matrix.Matrix(Bool)) -> matrix.Matrix(Bool) {
+  let bool_to_string = fn(b) {
+    case b {
+      True -> "#"
+      False -> "."
+    }
+  }
+  matrix.to_string(matrix, bool_to_string) |> io.println
+  io.println("")
+  matrix
 }
 
 fn parse_line(line: String) -> Result(Instruction, String) {
