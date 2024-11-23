@@ -11,15 +11,15 @@ type Instruction {
   RotateRow(y: Int, by: Int)
 }
 
-const height = 6
+const height = 3
 
-const width = 50
+const width = 4
 
 pub fn main() {
   let matrix = matrix.new_matrix(width, height, False)
 
   let result =
-    input.line_by_line("src/d8short.txt")
+    input.line_by_line("src/d8mini.txt")
     |> list.filter_map(parse_line)
     |> list.fold(matrix, handle_instruction)
     |> print_matrix

@@ -1,4 +1,3 @@
-import gleam/dict
 import gleam/list
 import gleam/string
 
@@ -56,21 +55,9 @@ pub fn shift_row_right(
     cells: list.index_map(matrix.cells, fn(current_row, row_index) {
       case row_index == row {
         True -> {
-          let vals =
-            list.index_fold(current_row, dict.new(), fn(acc, val, idx) {
-              let source_pos = case idx + shift % matrix.width {
-                n if n >= matrix.width -> n - matrix.width
-                n -> n
-              }
-              dict.insert(acc, source_pos, #(idx, val))
-            })
-
-          list.index_map(current_row, fn(value, col_index) {
-            case dict.get(vals, col_index) {
-              Ok(#(_, v)) -> v
-              Error(_) -> value
-            }
-          })
+          current_row
+          |> list.split(matrix.width - shift)
+          |> fn(splitted) { list.append(splitted.1, splitted.0) }
         }
         False -> current_row
       }
