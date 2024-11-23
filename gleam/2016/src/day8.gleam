@@ -19,7 +19,7 @@ pub fn main() {
   let matrix = matrix.new_matrix(width, height, False)
 
   let result =
-    input.line_by_line("src/d8.txt")
+    input.line_by_line("src/d8short.txt")
     |> list.filter_map(parse_line)
     |> list.fold(matrix, handle_instruction)
     |> print_matrix
