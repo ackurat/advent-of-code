@@ -1,4 +1,5 @@
 import gleam/list
+import gleam/order
 import gleam/string
 
 pub type Matrix(default) {
@@ -7,6 +8,10 @@ pub type Matrix(default) {
 
 pub fn new_matrix(w: Int, h: Int, default: value) -> Matrix(value) {
   Matrix(cells: list.repeat(list.repeat(default, w), h))
+}
+
+pub fn empty_matrix(_default: value) -> Matrix(value) {
+  Matrix(cells: [])
 }
 
 pub fn to_string(
@@ -20,6 +25,11 @@ pub fn to_string(
     |> string.join("")
   })
   |> string.join("\n")
+}
+
+pub fn push(matrix: Matrix(value), new_row: List(value)) -> Matrix(value) {
+  let new_cells = list.append(matrix.cells, [new_row])
+  Matrix(cells: new_cells)
 }
 
 pub fn set(
@@ -75,4 +85,17 @@ pub fn shift_column_down(
   transpose_matrix(matrix)
   |> shift_row_right(column, shift)
   |> transpose_matrix
+}
+
+pub fn sort(
+  matrix: Matrix(value),
+  compare_fn: fn(value, value) -> order.Order,
+) -> Matrix(value) {
+  let sorted_cells =
+    list.map(matrix.cells, fn(row) { list.sort(row, compare_fn) })
+  Matrix(cells: sorted_cells)
+}
+
+pub fn get_cells(matrix: Matrix(value)) -> List(List(value)) {
+  matrix.cells
 }
