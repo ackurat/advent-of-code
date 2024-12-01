@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/adamliliemark/advent-of-code/utils"
+	"github.com/ackurat/advent-of-code/utils"
 )
 
 func part1(input []string) int {

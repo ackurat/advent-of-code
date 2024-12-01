@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/adamliliemark/advent-of-code/utils"
+	"github.com/ackurat/advent-of-code/utils"
 )
 
 func walk(v interface{}, total *float64) {

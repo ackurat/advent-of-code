@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/adamliliemark/advent-of-code/utils"
+	"github.com/ackurat/advent-of-code/utils"
 )
 
 type processor struct {

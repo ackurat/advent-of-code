@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/adamliliemark/advent-of-code/graphs"
-	"github.com/adamliliemark/advent-of-code/utils"
+	"github.com/ackurat/advent-of-code/graphs"
+	"github.com/ackurat/advent-of-code/utils"
 )
 
 func part1(input []string) int {

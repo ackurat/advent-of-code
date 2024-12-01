@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/adamliliemark/advent-of-code/utils"
+	"github.com/ackurat/advent-of-code/utils"
 )
 
 func part2(input []string) (total int) {
