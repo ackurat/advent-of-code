@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/ackurat/advent-of-code/graphs"
-	"github.com/ackurat/advent-of-code/utils"
+	"github.com/ackurat/advent-of-code/utils/go/graphs"
+	"github.com/ackurat/advent-of-code/utils/go/utils"
 )
 
 func makeFilesystem(node *graphs.WeightedNode, input []string) {

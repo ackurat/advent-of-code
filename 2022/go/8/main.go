@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/ackurat/advent-of-code/graphs"
-	"github.com/ackurat/advent-of-code/utils"
+	"github.com/ackurat/advent-of-code/utils/go/graphs"
+	"github.com/ackurat/advent-of-code/utils/go/utils"
 )
 
 func parseInput(input []string) (trees [][]int) {

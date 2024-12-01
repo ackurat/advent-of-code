@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/ackurat/advent-of-code/utils"
+	"github.com/ackurat/advent-of-code/utils/go/utils"
 )
 
 func walk(v interface{}, total *float64) {

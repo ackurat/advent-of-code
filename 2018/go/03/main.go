@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/ackurat/advent-of-code/utils"
+	"github.com/ackurat/advent-of-code/utils/go/utils"
 )
 
 func part1and2(input []string) int {

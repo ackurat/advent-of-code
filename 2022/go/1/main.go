@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strconv"
 
-	"github.com/ackurat/advent-of-code/utils"
+	"github.com/ackurat/advent-of-code/utils/go/utils"
 )
 
 func calculateElvesTotals(input []string) []int {

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/ackurat/advent-of-code/utils"
+	"github.com/ackurat/advent-of-code/utils/go/utils"
 )
 
 type Box struct {

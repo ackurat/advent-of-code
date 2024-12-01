@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/ackurat/advent-of-code/utils"
+	"github.com/ackurat/advent-of-code/utils/go/utils"
 )
 
 type coords struct {
