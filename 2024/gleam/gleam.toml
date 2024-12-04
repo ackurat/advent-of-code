@@ -16,3 +16,4 @@ version = "1.0.0"
 gleam_stdlib = ">= 0.45.0 and < 2.0.0"
 utils = { path = "../../utils/gleam" }
 simplifile = ">= 2.2.0 and < 3.0.0"
+gleam_regexp = ">= 1.0.0 and < 2.0.0"
