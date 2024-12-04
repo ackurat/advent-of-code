@@ -16,6 +16,7 @@ pub fn main() {
       })
 
     part1(input) |> io.debug
+    part2(input) |> io.debug
 }
 
 fn part1(input) {
@@ -47,4 +48,18 @@ fn check_increasing(pair: #(Int, Int)) {
         a, b if b - a >= 1 && b - a <= 3 -> True
         _ ,_-> False
     }
+}
+
+fn part2(input) {
+    input
+    |> list.filter(fn(row) {
+        let sublists = list.index_map(row, fn(_char, i) {
+            let sublist = list.append(list.take(row, i), list.drop(row, i + 1))
+            let sublist_pairs = list.window_by_2(sublist)
+            list.all(sublist_pairs, check_decreasing) || list.all(sublist_pairs, check_increasing)
+        })
+        
+        list.any(sublists, fn(res) { res })
+    })
+    |> list.length
 }
