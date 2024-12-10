@@ -2,7 +2,12 @@ import gleam/dict
 import gleam/list
 
 pub type Point =
-  #(Int, Int)
+  #(X, Y)
+
+pub type X = Int
+pub type Y = Int
+
+pub type Cursor = #(Point, Direction)
 
 pub type Grid(default) =
   dict.Dict(Point, default)
@@ -39,6 +44,28 @@ fn dxdy(direction: Direction) {
     Up -> #(-1, 0)
     UpRight -> #(-1, 1)
     UpLeft -> #(-1, -1)
+  }
+}
+
+pub fn turn(direction direction: Direction, turn turn: Direction) {
+  case direction, turn {
+    Right, Right -> Down
+    Right, Left -> Up
+    Down, Right -> Left
+    Down, Left -> Right
+    DownRight, Right -> DownLeft
+    DownRight, Left -> UpRight
+    DownLeft, Right -> UpLeft
+    DownLeft, Left -> DownRight
+    Left, Right -> Up
+    Left, Left -> Down
+    Up, Right -> Right
+    Up, Left -> Left
+    UpRight, Right -> DownRight
+    UpRight, Left -> UpLeft
+    UpLeft, Right -> DownLeft
+    UpLeft, Left -> UpRight
+    _, _ -> Up
   }
 }
 
@@ -81,4 +108,13 @@ pub fn get_adjacent(
 ) -> List(List(Point)) {
   all_directions
   |> list.map(fn(dir) { points_in_direction(origin, dir, distance) })
+}
+
+pub fn get_adjacent_in_direction(
+  origin origin: Point,
+  direction direction: Direction
+) -> Point {
+  let #(row, col) = origin
+  let #(dx, dy) = dxdy(direction)
+  #(row + dx, col + dy)
 }

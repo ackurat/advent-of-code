@@ -8,5 +8,5 @@ packages = [
 ]
 
 [requirements]
-gleam_stdlib = { version = ">= 0.34.0 and < 2.0.0" }
+gleam_stdlib = { version = ">= 0.45.0 and < 2.0.0" }
 simplifile = { version = ">= 2.2.0 and < 3.0.0" }
