@@ -8,7 +8,7 @@ import grids
 import input
 
 pub fn main() {
-  let input = input.line_by_line("src/d6short.txt")
+  let input = input.line_by_line("src/d6.txt")
   let grid = parse(input)
   let guard = find_guard(grid)
   let clean_grid = dict.insert(grid, guard.0, ".")
@@ -47,16 +47,17 @@ fn walk_until_cycle(grid: grids.Grid(String), guard: grids.Cursor, visited: set.
 }
 
 fn part2(grid, guard, width, height) {
-  list.range(0, dict.size(grid))
+  list.range(0, width * height - 1)
   |> list.filter(fn(idx) {
-    case dict.get(grid, #(idx % height, idx % width)) {
+    let row = idx / width
+    let col = idx % width
+    case dict.get(grid, #(row, col)) {
       Ok(".") -> {
-          let new_grid = dict.insert(grid, #(idx % height, idx % width), "#")
-          walk_until_cycle(new_grid, guard, set.new())
-        }
+        let new_grid = dict.insert(grid, #(row, col), "#")
+        walk_until_cycle(new_grid, guard, set.new())
+      }
       _ -> False
     }
-    
   })
   |> list.length
 }
