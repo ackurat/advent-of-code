@@ -1,5 +1,5 @@
-import day6p2
+import day5
 
 pub fn main() {
-  day6p2.main()
+  day5.main()
 }
